@@ -1,0 +1,16 @@
+.taskColomn {
+    background: cornsilk;
+    margin: 3px;
+    border: 3px solid gray;  
+    height: 100%;
+}
+
+.task {
+    background: whitesmoke;
+    margin: 1px;
+    border: 3px solid gray;  
+}
+
+#colomnContainer{
+    display: inline-flex;
+}
