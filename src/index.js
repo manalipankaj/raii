@@ -16,59 +16,36 @@
         newRowDiv.setAttribute("class","taskColomn");
         newRowDiv.innerHTML = "I am added";
         newRowDiv.setAttribute("draggable", "true");
+        
+        newRowDiv.addEventListener("drop",(ev) => {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+
+            console.log(data);
+            ev.target.appendChild(document.getElementById(data))
+        });
+
+        newRowDiv.addEventListener("dragover", (ev) => {
+            ev.preventDefault();
+        })
 
         newRowDiv.appendChild(addTaskButton);
         colomnContainer.appendChild(newRowDiv);
 
         addTaskButton.addEventListener("click", () => {
             taskCounter++;
+            const id = Math.random();
             const newTaskElement = document.createElement("div");
             newTaskElement.setAttribute("class", "task");
+            newTaskElement.setAttribute("id",id)
             newTaskElement.setAttribute("draggable", "true");
             newTaskElement.innerHTML = "task no "+taskCounter;
             newRowDiv.appendChild(newTaskElement);
-            
-            dragElement(newTaskElement);
-        });
-        dragElement(newRowDiv);
-    }
 
-    function dragElement(elmnt) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        if (document.getElementById(elmnt.id + "header")) {
-          /* if present, the header is where you move the DIV from:*/
-          document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-        } else {
-          /* otherwise, move the DIV from anywhere inside the DIV:*/
-          elmnt.onmousedown = dragMouseDown;
-        }
-      
-        function dragMouseDown(e) {
-          e = e || window.event;
-          // get the mouse cursor position at startup:
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          document.onmouseup = closeDragElement;
-          // call a function whenever the cursor moves:
-          document.onmousemove = elementDrag;
-        }
-      
-        function elementDrag(e) {
-          e = e || window.event;
-          // calculate the new cursor position:
-          pos1 = pos3 - e.clientX;
-          pos2 = pos4 - e.clientY;
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          // set the element's new position:
-          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        }
-      
-        function closeDragElement() {
-          /* stop moving when mouse button is released:*/
-          document.onmouseup = null;
-          document.onmousemove = null;
-        }
-      }
+            newTaskElement.addEventListener("dragstart", (ev) => {
+                console.log("dragging");
+                ev.dataTransfer.setData("text", id);
+            })
+        });
+    }
 })();
