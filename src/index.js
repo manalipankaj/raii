@@ -12,23 +12,25 @@
     function createColomn() {
         const addTaskButton = document.createElement("button");
         const newRowDiv = document.createElement("div");
+
+        var clickedItem;
         
         newRowDiv.setAttribute("class","taskColomn");
         newRowDiv.innerHTML = "I am added";
         newRowDiv.setAttribute("draggable", "true");
         
-        newRowDiv.addEventListener("drop",(ev) => {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-            ev.stopPropagation();
-            return;
+        newRowDiv.addEventListener("mousedown",(ev) => {
+            if(ev.srcElement.class === "task") {
+                
+            }
         });
 
         newRowDiv.addEventListener("dragover", (ev) => {
-            ev.preventDefault();
+            if(ev.preventDefault) {
+                ev.preventDefault()
+            }
             return;
-        })
+        });
 
         newRowDiv.appendChild(addTaskButton);
         colomnContainer.appendChild(newRowDiv);
@@ -44,10 +46,21 @@
             
             newTaskElement.innerHTML = "task no "+taskCounter;
 
-            newTaskElement.addEventListener("dragstart", (ev) => {
-                ev.dataTransfer.setData("text", id);
-                ev.stopPropagation();
-                return;
+            newTaskElement.addEventListener("dragover", () => {
+                event.preventDefault = false;
+            });
+
+            newTaskElement.addEventListener("mousedown", (ev) => {
+                clickedItem = id;
+
+                newTaskElement.addEventListener("mousemove", (ev) => {
+                    console.log(ev.pageX, ev.pageY)
+                    newTaskElement.style.left = ev.pageX;
+                    newTaskElement.style.left = ev.pageY;
+                })
+
+            //     ev.stopPropagation();
+            //     return;
             });
 
             newRowDiv.appendChild(newTaskElement);
