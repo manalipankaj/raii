@@ -2,6 +2,36 @@
     const element = document.getElementById("main");
     const addButton = document.getElementById("addColomnButton");
     const colomnContainer = document.getElementById("colomnContainer");
+    var dFlag = 0;
+    var mFlag = 0;
+
+    colomnContainer.addEventListener("mousedown",(ev) => {
+        if(ev.srcElement.className === "task") {
+            dFlag = 1;
+            //    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+        }
+    });
+
+    colomnContainer.addEventListener("mousemove", () => {
+        if(dFlag) {
+            mFlag = 1;
+        }
+    })
+
+    colomnContainer.addEventListener("mouseup", (event) => {
+        console.log();
+        if(mFlag) {
+            console.log("dragging");
+        }
+        else {
+            console.log("just up")
+        }
+        // let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
+        // let droppableBelow = elemBelow.closest('.taskColomn');     
+        // droppableBelow.appendChild(document.getElementById(selected));
+        // event.stopPropagation();
+        // return true;
+    });
 
     var taskCounter = 0
 
@@ -18,12 +48,6 @@
         newRowDiv.setAttribute("class","taskColomn");
         newRowDiv.innerHTML = "I am added";
         newRowDiv.setAttribute("draggable", "true");
-        
-        newRowDiv.addEventListener("mousedown",(ev) => {
-            if(ev.srcElement.class === "task") {
-                
-            }
-        });
 
         newRowDiv.addEventListener("dragover", (ev) => {
             if(ev.preventDefault) {
@@ -50,18 +74,11 @@
                 event.preventDefault = false;
             });
 
-            newTaskElement.addEventListener("mousedown", (ev) => {
-                clickedItem = id;
+            // newTaskElement.addEventListener("mousedown", (ev) => {
 
-                newTaskElement.addEventListener("mousemove", (ev) => {
-                    console.log(ev.pageX, ev.pageY)
-                    newTaskElement.style.left = ev.pageX;
-                    newTaskElement.style.left = ev.pageY;
-                })
-
-            //     ev.stopPropagation();
-            //     return;
-            });
+            // //     ev.stopPropagation();
+            // //     return;
+            // });
 
             newRowDiv.appendChild(newTaskElement);
         });
