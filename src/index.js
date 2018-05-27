@@ -5,32 +5,36 @@
     var dFlag = 0;
     var mFlag = 0;
 
+    let selected;
+
     colomnContainer.addEventListener("mousedown",(ev) => {
         if(ev.srcElement.className === "task") {
+            selected = ev.srcElement.id;
             dFlag = 1;
-            //    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
         }
-    });
 
-    colomnContainer.addEventListener("mousemove", () => {
-        if(dFlag) {
-            mFlag = 1;
-        }
-    })
+        colomnContainer.addEventListener("mousemove", () => {
+            console.log(dFlag," ", mFlag);
+            if(dFlag) {
+                mFlag = 1;
+            }
+        })
+    });
 
     colomnContainer.addEventListener("mouseup", (event) => {
         console.log();
         if(mFlag) {
             console.log("dragging");
+            mFlag = 0;
+            dFlag = 0;
+
+            let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
+            let droppableBelow = elemBelow.closest('.taskColomn');     
+            droppableBelow.appendChild(document.getElementById(selected));
+            event.stopPropagation();
+            return true;
         }
-        else {
-            console.log("just up")
-        }
-        // let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
-        // let droppableBelow = elemBelow.closest('.taskColomn');     
-        // droppableBelow.appendChild(document.getElementById(selected));
-        // event.stopPropagation();
-        // return true;
+        dFlag = 0;
     });
 
     var taskCounter = 0
@@ -47,14 +51,13 @@
         
         newRowDiv.setAttribute("class","taskColomn");
         newRowDiv.innerHTML = "I am added";
-        newRowDiv.setAttribute("draggable", "true");
+        // newRowDiv.setAttribute("draggable", "true");
 
-        newRowDiv.addEventListener("dragover", (ev) => {
-            if(ev.preventDefault) {
-                ev.preventDefault()
-            }
-            return;
-        });
+        // newRowDiv.addEventListener("dragover", (ev) => {
+        //     if(ev.preventDefault) {
+        //         ev.preventDefault()
+        //     }
+        // });
 
         newRowDiv.appendChild(addTaskButton);
         colomnContainer.appendChild(newRowDiv);
@@ -66,7 +69,7 @@
             
             newTaskElement.setAttribute("class", "task");
             newTaskElement.setAttribute("id",id)
-            newTaskElement.setAttribute("draggable", "true");
+            // newTaskElement.setAttribute("draggable", "true");
             
             newTaskElement.innerHTML = "task no "+taskCounter;
 
