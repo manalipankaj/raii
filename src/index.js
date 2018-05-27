@@ -2,40 +2,44 @@
     const element = document.getElementById("main");
     const addButton = document.getElementById("addColomnButton");
     const colomnContainer = document.getElementById("colomnContainer");
+    
+    // Drag and drop 
     var dFlag = 0;
     var mFlag = 0;
-
     let selected;
+
+    function moveElem(e) {
+        if(dFlag) {
+          var elem = document.getElementById(selected);
+        //   elem.style.position = 'absolute';
+          elem.style.top = e.clientY + 'px';
+          elem.style.left = e.clientX + 'px';
+          mFlag = 1;
+        }
+      }
 
     colomnContainer.addEventListener("mousedown",(ev) => {
         if(ev.srcElement.className === "task") {
             selected = ev.srcElement.id;
             dFlag = 1;
         }
-
-        colomnContainer.addEventListener("mousemove", () => {
-            console.log(dFlag," ", mFlag);
-            if(dFlag) {
-                mFlag = 1;
-            }
-        })
     });
+    colomnContainer.addEventListener("mousemove", moveElem);
 
     colomnContainer.addEventListener("mouseup", (event) => {
-        console.log();
         if(mFlag) {
-            console.log("dragging");
-            mFlag = 0;
-            dFlag = 0;
+
+            // colomnContainer.removeEventListener("mousemove", moveElem);
 
             let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
             let droppableBelow = elemBelow.closest('.taskColomn');     
             droppableBelow.appendChild(document.getElementById(selected));
             event.stopPropagation();
-            return true;
         }
+        mFlag = 0;
         dFlag = 0;
     });
+    // Drag and drop ends
 
     var taskCounter = 0
 
