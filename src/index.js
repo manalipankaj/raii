@@ -29,8 +29,6 @@
     colomnContainer.addEventListener("mouseup", (event) => {
         if(mFlag) {
 
-            // colomnContainer.removeEventListener("mousemove", moveElem);
-
             let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
             let droppableBelow = elemBelow.closest('.taskColomn');     
             droppableBelow.appendChild(document.getElementById(selected));
@@ -55,13 +53,6 @@
         
         newRowDiv.setAttribute("class","taskColomn");
         newRowDiv.innerHTML = "I am added";
-        // newRowDiv.setAttribute("draggable", "true");
-
-        // newRowDiv.addEventListener("dragover", (ev) => {
-        //     if(ev.preventDefault) {
-        //         ev.preventDefault()
-        //     }
-        // });
 
         newRowDiv.appendChild(addTaskButton);
         colomnContainer.appendChild(newRowDiv);
@@ -73,19 +64,12 @@
             
             newTaskElement.setAttribute("class", "task");
             newTaskElement.setAttribute("id",id)
-            // newTaskElement.setAttribute("draggable", "true");
             
             newTaskElement.innerHTML = "task no "+taskCounter;
 
             newTaskElement.addEventListener("dragover", () => {
                 event.preventDefault = false;
             });
-
-            // newTaskElement.addEventListener("mousedown", (ev) => {
-
-            // //     ev.stopPropagation();
-            // //     return;
-            // });
 
             newRowDiv.appendChild(newTaskElement);
         });
